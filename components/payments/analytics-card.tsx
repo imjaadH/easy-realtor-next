@@ -1,4 +1,10 @@
-import { Select } from '@mantine/core'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import AnalyticsChart from '../analytics/analytics-chart'
 
 type Props = {}
@@ -10,11 +16,16 @@ export const AnalyticsCard = ({}: Props) => {
           <p className='font-light text-gray-600 text-sm'>Payments</p>
           <p className='text-lg font-semibold'>$154,256.02</p>
         </div>
-        <Select
-          placeholder='select status'
-          defaultValue={'Payments'}
-          data={['Payments', 'Clients', 'Asset Values']}
-        />
+        <Select>
+          <SelectTrigger className='w-[180px]'>
+            <SelectValue placeholder='Theme' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value='light'>Light</SelectItem>
+            <SelectItem value='dark'>Dark</SelectItem>
+            <SelectItem value='system'>System</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <div className='p-4'>

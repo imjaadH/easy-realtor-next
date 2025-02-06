@@ -1,26 +1,14 @@
 import NextAuth, { NextAuthConfig } from 'next-auth'
-import { ZodError } from 'zod'
 import Google from 'next-auth/providers/google'
 import GitHub from 'next-auth/providers/github'
 import Credentials from 'next-auth/providers/credentials'
-import { DrizzleAdapter } from '@auth/drizzle-adapter'
+import { PrismaAdapter } from '@auth/prisma-adapter'
+import bcrypt from 'bcrypt'
 
-import { signInSchema } from '@/schemas'
-import { db } from '@/db'
-import {
-  accounts,
-  users,
-  sessions,
-  verificationTokens,
-} from '@/db/schema/schema'
+import { prisma } from './prisma'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: DrizzleAdapter(db, {
-    usersTable: users,
-    accountsTable: accounts,
-    sessionsTable: sessions,
-    verificationTokensTable: verificationTokens,
-  }),
+  adapter: PrismaAdapter(prisma),
   providers: [
     Credentials({
       // You can specify which fields should be submitted, by adding keys to the `credentials` object.
@@ -28,6 +16,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       credentials: {
         email: {},
         password: {},
+      },
+
+      authorize: async credentials => {
+        let user = null
+        const { email, password } = credentials
+
+        var result = await prisma.user.findFirst({
+          where: {
+            email: email as string,
+          },
+        })
+        user = result
+
+        if (!user) {
+          // No user found, so this is their first attempt to login
+          throw new Error('Invalid credentials.')
+        }
+
+        const passwordMatched = await bcrypt.compare(
+          password as string,
+          user.password!,
+        )
+        if (!passwordMatched) {
+          throw new Error('Invalid credentials.')
+        }
+        return user
       },
     }),
     GitHub,

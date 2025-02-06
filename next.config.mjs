@@ -5,11 +5,10 @@ const nextConfig = {
       'lh3.googleusercontent.com',
       'cdn.britannica.com',
       'static.wikia.nocookie.net',
+      'a0.muscache.com',
     ],
   },
-  experimental: {
-    optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
-  },
+  experimental: {},
 }
 
 export default nextConfig

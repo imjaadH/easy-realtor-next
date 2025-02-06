@@ -1,17 +1,27 @@
-import { List, Paper, Text } from '@mantine/core'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 const MetricsList = () => {
   return (
     <div>
-      <Paper>
-        <List>
-          <Text size='sm' c={'gray'}>
-            Recent Payments
-          </Text>
-
-          <Text size='md'>$ 15.620</Text>
-        </List>
-      </Paper>
+      <Card>
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card Description</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>Card Content</p>
+        </CardContent>
+        <CardFooter>
+          <p>Card Footer</p>
+        </CardFooter>
+      </Card>
     </div>
   )
 }

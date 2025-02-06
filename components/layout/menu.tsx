@@ -44,17 +44,17 @@ export const MenuItems = () => {
         {routes.map((item, index) => (
           <li key={index}>
             <Link href={item.href}>
-              <div className=' flex gap-2 px-2 items-center'>
+              <div className=' flex gap-2 px-2 items-center text-gray-700  hover:text-black'>
                 <item.icon
                   size={15}
                   className={cn(
-                    `text-gray-600`,
-                    item.active && 'text-slate-800 dark:text-slate-800',
+                    `text-inherit`,
+                    item.active && 'text-slate-800 dark:text-neutral-200',
                   )}
                 />
                 <p
                   className={cn(
-                    `text-gray-500 text-sm font-normal`,
+                    `text-inherit text-sm font-normal  `,
                     item.active && 'text-slate-800',
                   )}
                 >

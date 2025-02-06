@@ -7,8 +7,10 @@ export default function DashboardLayout({
 }) {
   return (
     <>
-      <Navbar />
-      {children}
+      <div className='mx-auto max-w-screen'>
+        <Navbar />
+        {children}
+      </div>
     </>
   )
 }

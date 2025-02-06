@@ -1,48 +1,34 @@
 'use client'
-
-import { BarChart, LineChart } from '@mantine/charts'
-import { Tooltip } from '@mantine/core'
-export const data = [
-  {
-    date: 'Mar 22',
-    Apples: 1000,
-    Oranges: 2338,
-    Tomatoes: 2452,
-  },
-  {
-    date: 'Mar 23',
-    Apples: 1250,
-    Oranges: 2103,
-    Tomatoes: 2402,
-  },
-  {
-    date: 'Mar 24',
-    Apples: 1920,
-    Oranges: 986,
-    Tomatoes: 1821,
-  },
-  {
-    date: 'Mar 25',
-    Apples: 2550,
-    Oranges: 2108,
-    Tomatoes: 2809,
-  },
-  {
-    date: 'Mar 26',
-    Apples: 3129,
-    Oranges: 1726,
-    Tomatoes: 2290,
-  },
+import { Bar, BarChart } from 'recharts'
+import { ChartConfig, ChartContainer } from '@/components/ui/chart'
+const chartData = [
+  { month: 'January', desktop: 186, mobile: 80 },
+  { month: 'February', desktop: 305, mobile: 200 },
+  { month: 'March', desktop: 237, mobile: 120 },
+  { month: 'April', desktop: 73, mobile: 190 },
+  { month: 'May', desktop: 209, mobile: 130 },
+  { month: 'June', desktop: 214, mobile: 140 },
 ]
+
+const chartConfig = {
+  desktop: {
+    label: 'Desktop',
+    color: '#2563eb',
+  },
+  mobile: {
+    label: 'Mobile',
+    color: '#60a5fa',
+  },
+} satisfies ChartConfig
+
 const AnalyticsChart = () => {
   return (
-    <LineChart
-      h={300}
-      data={data}
-      dataKey='date'
-      series={[{ name: 'Apples', color: 'indigo.6' }]}
-      curveType='bump'
-    />
+    <ChartContainer config={chartConfig} className='min-h-[200px]'>
+      <BarChart accessibilityLayer data={chartData}>
+        <Bar dataKey='desktop' fill='var(--color-desktop)' radius={4} />
+        <Bar dataKey='mobile' fill='var(--color-mobile)' radius={4} />
+      </BarChart>
+    </ChartContainer>
   )
 }
 

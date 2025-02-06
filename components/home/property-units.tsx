@@ -1,6 +1,23 @@
 'use client'
-import { Card, Select, Image, Badge } from '@mantine/core'
-import { MapPin } from 'lucide-react'
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+
+import { MapPin, MapPinCheck } from 'lucide-react'
+import Image from 'next/image'
 interface Props {
   visibleItems?: number
 }
@@ -10,187 +27,142 @@ const PropertyUnits: React.FC<Props> = ({ visibleItems = 5 }: Props) => {
       <div className='flex items-center justify-between'>
         <p className='text-lg font-semibold'>My Units</p>
 
-        <Select
-          placeholder='select status'
-          data={['Active', 'Rented', 'Maintenance', 'Sold']}
-        />
+        <Select>
+          <SelectTrigger className='w-[180px]'>
+            <SelectValue placeholder='Theme' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value='light'>Light</SelectItem>
+            <SelectItem value='dark'>Dark</SelectItem>
+            <SelectItem value='system'>System</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      <div className='grid grid-cols sm:grid-cols-2 md:grid-cols-6 gap-3 p-2'>
-        <Card shadow='sm' padding='sm' radius='md'>
-          <Card.Section>
+      <div className='grid grid-cols sm:grid-cols-2 md:grid-cols-4 gap-3 p-2'>
+        <Card>
+          <div className='w-full h-44 rounded-md flex relative'>
             <Image
-              src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png'
-              height={160}
-              alt='Norway'
+              alt={'card-image'}
+              src={
+                'https://a0.muscache.com/im/pictures/miso/Hosting-22774851/original/7789a5cc-f7cb-4238-ad5d-f1d71e36365c.jpeg?im_w=720&im_format=avif'
+              }
+              fill
+              className='rounded-md'
             />
-          </Card.Section>
-          <div>
-            <p className='text-indigo-900 font-bold mt-2'>$750,200</p>
-            <p className='text-slate-950 font-semibold text-sm'>
-              Santa Monica Manhatton
-            </p>
           </div>
 
-          <div className='flex items-center gap-1 mt-2'>
-            <MapPin className='text-indigo-700' size={13} />
-            <p className='font-light text-gray-600 text-xs'>
-              Sao Palo Malaysia
-            </p>
-          </div>
-          <div className='flex justify-between items-center'>
-            <Badge variant='filled' color='blue' className='mt-2'>
-              Active
-            </Badge>
+          <CardContent className='p-2'>
+            <p className='text-sm font-semibold'>Tampak Siring, Indonesia</p>
 
-            <p className='font-light text-gray-600 text-xs'>29 Aug 2024</p>
-          </div>
+            <div className='flex gap-1 text-gray-500 '>
+              <MapPinCheck size={15} />
+              <p className='text-xs font-mono'>23 Hagen street main road</p>
+            </div>
+
+            <div className='flex items-center justify-between mt-4'>
+              <div>
+                <p className='text-sm text-gray-800 font-semibold'>$49</p>
+              </div>
+
+              <div className='rounded-full bg-lime-700 inline-flex items-center justify-center  text-xs text-white p-1 px-2'>
+                Active
+              </div>
+            </div>
+          </CardContent>
         </Card>
-        <Card shadow='sm' padding='sm' radius='md'>
-          <Card.Section>
+        <Card>
+          <div className='w-full h-44 rounded-md flex relative'>
             <Image
-              src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png'
-              height={160}
-              alt='Norway'
+              alt={'card-image'}
+              src={
+                'https://a0.muscache.com/im/pictures/miso/Hosting-22774851/original/7789a5cc-f7cb-4238-ad5d-f1d71e36365c.jpeg?im_w=720&im_format=avif'
+              }
+              fill
+              className='rounded-md'
             />
-          </Card.Section>
-          <div>
-            <p className='text-indigo-900 font-bold mt-2'>$750,200</p>
-            <p className='text-slate-950 font-semibold text-sm'>
-              Santa Monica Manhatton
-            </p>
           </div>
 
-          <div className='flex items-center gap-1 mt-2'>
-            <MapPin className='text-indigo-700' size={13} />
-            <p className='font-light text-gray-600 text-xs'>
-              Sao Palo Malaysia
-            </p>
-          </div>
-          <div className='flex justify-between items-center'>
-            <Badge variant='filled' color='blue' className='mt-2'>
-              Active
-            </Badge>
+          <CardContent className='p-2'>
+            <p className='text-sm font-semibold'>Tampak Siring, Indonesia</p>
 
-            <p className='font-light text-gray-600 text-xs'>29 Aug 2024</p>
-          </div>
+            <div className='flex gap-1 text-gray-500 '>
+              <MapPinCheck size={15} />
+              <p className='text-xs font-mono'>23 Hagen street main road</p>
+            </div>
+
+            <div className='flex items-center justify-between mt-4'>
+              <div>
+                <p className='text-sm text-gray-800 font-semibold'>$49</p>
+              </div>
+
+              <div className='rounded-full bg-lime-700 inline-flex items-center justify-center  text-xs text-white p-1 px-2'>
+                Active
+              </div>
+            </div>
+          </CardContent>
         </Card>
-        <Card shadow='sm' padding='sm' radius='md'>
-          <Card.Section>
+        <Card>
+          <div className='w-full h-44 rounded-md flex relative'>
             <Image
-              src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png'
-              height={160}
-              alt='Norway'
+              alt={'card-image'}
+              src={
+                'https://a0.muscache.com/im/pictures/miso/Hosting-22774851/original/7789a5cc-f7cb-4238-ad5d-f1d71e36365c.jpeg?im_w=720&im_format=avif'
+              }
+              fill
+              className='rounded-md'
             />
-          </Card.Section>
-          <div>
-            <p className='text-indigo-900 font-bold mt-2'>$750,200</p>
-            <p className='text-slate-950 font-semibold text-sm'>
-              Santa Monica Manhatton
-            </p>
           </div>
 
-          <div className='flex items-center gap-1 mt-2'>
-            <MapPin className='text-indigo-700' size={13} />
-            <p className='font-light text-gray-600 text-xs'>
-              Sao Palo Malaysia
-            </p>
-          </div>
-          <div className='flex justify-between items-center'>
-            <Badge variant='filled' color='blue' className='mt-2'>
-              Active
-            </Badge>
+          <CardContent className='p-2'>
+            <p className='text-sm font-semibold'>Tampak Siring, Indonesia</p>
 
-            <p className='font-light text-gray-600 text-xs'>29 Aug 2024</p>
-          </div>
+            <div className='flex gap-1 text-gray-500 '>
+              <MapPinCheck size={15} />
+              <p className='text-xs font-mono'>23 Hagen street main road</p>
+            </div>
+
+            <div className='flex items-center justify-between mt-4'>
+              <div>
+                <p className='text-sm text-gray-800 font-semibold'>$49</p>
+              </div>
+
+              <div className='rounded-full bg-lime-700 inline-flex items-center justify-center  text-xs text-white p-1 px-2'>
+                Active
+              </div>
+            </div>
+          </CardContent>
         </Card>
-        <Card shadow='sm' padding='sm' radius='md'>
-          <Card.Section>
+        <Card>
+          <div className='w-full h-44 rounded-md flex relative'>
             <Image
-              src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png'
-              height={160}
-              alt='Norway'
+              alt={'card-image'}
+              src={
+                'https://a0.muscache.com/im/pictures/miso/Hosting-22774851/original/7789a5cc-f7cb-4238-ad5d-f1d71e36365c.jpeg?im_w=720&im_format=avif'
+              }
+              fill
+              className='rounded-md'
             />
-          </Card.Section>
-          <div>
-            <p className='text-indigo-900 font-bold mt-2'>$750,200</p>
-            <p className='text-slate-950 font-semibold text-sm'>
-              Santa Monica Manhatton
-            </p>
           </div>
 
-          <div className='flex items-center gap-1 mt-2'>
-            <MapPin className='text-indigo-700' size={13} />
-            <p className='font-light text-gray-600 text-xs'>
-              Sao Palo Malaysia
-            </p>
-          </div>
-          <div className='flex justify-between items-center'>
-            <Badge variant='filled' color='blue' className='mt-2'>
-              Active
-            </Badge>
+          <CardContent className='p-2'>
+            <p className='text-sm font-semibold'>Tampak Siring, Indonesia</p>
 
-            <p className='font-light text-gray-600 text-xs'>29 Aug 2024</p>
-          </div>
-        </Card>
-        <Card shadow='sm' padding='sm' radius='md'>
-          <Card.Section>
-            <Image
-              src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png'
-              height={160}
-              alt='Norway'
-            />
-          </Card.Section>
-          <div>
-            <p className='text-indigo-900 font-bold mt-2'>$750,200</p>
-            <p className='text-slate-950 font-semibold text-sm'>
-              Santa Monica Manhatton
-            </p>
-          </div>
+            <div className='flex gap-1 text-gray-500 '>
+              <MapPinCheck size={15} />
+              <p className='text-xs font-mono'>23 Hagen street main road</p>
+            </div>
 
-          <div className='flex items-center gap-1 mt-2'>
-            <MapPin className='text-indigo-700' size={13} />
-            <p className='font-light text-gray-600 text-xs'>
-              Sao Palo Malaysia
-            </p>
-          </div>
-          <div className='flex justify-between items-center'>
-            <Badge variant='filled' color='blue' className='mt-2'>
-              Active
-            </Badge>
+            <div className='flex items-center justify-between mt-4'>
+              <div>
+                <p className='text-sm text-gray-800 font-semibold'>$49</p>
+              </div>
 
-            <p className='font-light text-gray-600 text-xs'>29 Aug 2024</p>
-          </div>
-        </Card>
-
-        <Card shadow='sm' padding='sm' radius='md'>
-          <Card.Section>
-            <Image
-              src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png'
-              height={160}
-              alt='Norway'
-            />
-          </Card.Section>
-          <div>
-            <p className='text-indigo-900 font-bold mt-2'>$750,200</p>
-            <p className='text-slate-950 font-semibold text-sm'>
-              Santa Monica Manhatton
-            </p>
-          </div>
-
-          <div className='flex items-center gap-1 mt-2'>
-            <MapPin className='text-indigo-700' size={13} />
-            <p className='font-light text-gray-600 text-xs'>
-              Sao Palo Malaysia
-            </p>
-          </div>
-          <div className='flex justify-between items-center'>
-            <Badge variant='filled' color='blue' className='mt-2'>
-              Active
-            </Badge>
-
-            <p className='font-light text-gray-600 text-xs'>29 Aug 2024</p>
-          </div>
+              <div className='rounded-full bg-lime-700 inline-flex items-center justify-center  text-xs text-white p-1 px-2'>
+                Active
+              </div>
+            </div>
+          </CardContent>
         </Card>
       </div>
     </div>

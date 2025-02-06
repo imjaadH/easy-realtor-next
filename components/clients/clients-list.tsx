@@ -1,27 +1,25 @@
-import { Button, List, ActionIcon } from '@mantine/core'
 import {
   SquareArrowUpRight,
   MailPlus,
   User2,
   ArrowUpRight,
   MoveRight,
+  PlusCircle,
+  Plus,
 } from 'lucide-react'
 import Link from 'next/link'
-
+import { Button } from '@/components/ui/button'
 type Props = {}
 export const ClientList = ({}: Props) => {
   return (
-    <div className='flex flex-col gap-2 rounded-md border border-gray-100 p-3 bg-white h-full overflow-y-auto '>
-      <div className='flex justify-between'>
+    <div className='flex flex-col gap-2 rounded-md border border-gray-100 p-3 bg-white overflow-y-auto '>
+      <div className='flex justify-between items-center'>
         <p className='text-lg font-semibold'>Clients section</p>
 
-        <Link
-          href={'#'}
-          className='flex gap-2 items-center text-indigo-600 text-sm'
-        >
-          <p>View all</p>
-          <ArrowUpRight size={15} />
-        </Link>
+        <Button variant={'secondary'}>
+          Add new client
+          <Plus />
+        </Button>
       </div>
 
       <div className='flex flex-col gap-1 h-full oveflow-auto'>
@@ -35,14 +33,9 @@ export const ClientList = ({}: Props) => {
               <p className='text-xs text-gray-500 font-light'>+61 7484418</p>
             </div>
 
-            <ActionIcon
-              variant='light'
-              size={'lg'}
-              aria-label='Email'
-              title='Send Email'
-            >
+            <Button variant='outline' size='icon'>
               <MailPlus size={18} />
-            </ActionIcon>
+            </Button>
           </div>
         </div>
         <div className='rounded-md bg-neutral-50 p-4'>
@@ -58,9 +51,9 @@ export const ClientList = ({}: Props) => {
               <p className='text-xs text-gray-500 font-light'>+61 7484418</p>
             </div>
 
-            <ActionIcon variant='light' size={'lg'} aria-label='Email'>
+            <Button variant='outline' size='icon'>
               <MailPlus size={18} />
-            </ActionIcon>
+            </Button>
           </div>
         </div>
         <div className='rounded-md bg-neutral-50 p-4'>
@@ -76,9 +69,9 @@ export const ClientList = ({}: Props) => {
               <p className='text-xs text-gray-500 font-light'>+61 7484418</p>
             </div>
 
-            <ActionIcon variant='light' size={'lg'} aria-label='Email'>
+            <Button variant='outline' size='icon'>
               <MailPlus size={18} />
-            </ActionIcon>
+            </Button>
           </div>
         </div>
         <div className='rounded-md bg-neutral-50 p-4'>
@@ -94,9 +87,9 @@ export const ClientList = ({}: Props) => {
               <p className='text-xs text-gray-500 font-light'>+61 7484418</p>
             </div>
 
-            <ActionIcon variant='light' size={'lg'} aria-label='Email'>
+            <Button variant='outline' size='icon'>
               <MailPlus size={18} />
-            </ActionIcon>
+            </Button>
           </div>
         </div>
         <div className='rounded-md bg-neutral-50 p-4'>
@@ -112,11 +105,18 @@ export const ClientList = ({}: Props) => {
               <p className='text-xs text-gray-500 font-light'>+61 7484418</p>
             </div>
 
-            <ActionIcon variant='light' size={'lg'} aria-label='Email'>
+            <Button variant='outline' size='icon'>
               <MailPlus size={18} />
-            </ActionIcon>
+            </Button>
           </div>
         </div>
+        <Link
+          href={'#'}
+          className='flex gap-2 items-center text-indigo-600 text-sm'
+        >
+          <p>View all</p>
+          <ArrowUpRight size={15} />
+        </Link>
       </div>
     </div>
   )

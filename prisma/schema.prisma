@@ -1,0 +1,169 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PropertyType {
+  Condo              @map("Condo")
+  Apartment          @map("Apartment")
+  Duplex             @map("Duplex")
+  Townhouse          @map("Townhouse")
+  Studio             @map("Studio")
+  Penthouse          @map("Penthouse")
+  Mansion            @map("Mansion")
+  Single_Family_Home @map("Single Family Home")
+}
+
+enum PropertyStatus {
+  Active      @map("Active")
+  Maintenance @map("Maintenance")
+  Rented      @map("Rented")
+  Sold        @map("Sold")
+}
+
+model Clients {
+  id      String  @id @default(cuid())
+  name    String
+  email   String?
+  contact String?
+  manager String
+
+  user User @relation(fields: [manager], references: [id], onDelete: NoAction)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("clients")
+}
+
+model Property {
+  id            String          @id @default(cuid())
+  type          PropertyType    @default(Apartment)
+  name          String
+  location      String
+  rentPerMonth  Decimal         @default(0.00) @db.Decimal(9, 2)
+  propertyValue Decimal?        @default(0.00) @db.Decimal(9, 2)
+  rentCycle     Int?            @default(30)
+  status        PropertyStatus? @default(Active)
+  userId        String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("property")
+}
+
+model Gallery {
+  id       Int    @id @default(autoincrement())
+  parentId String
+  path     String @db.Text()
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("gallery")
+}
+
+model Payment {
+  id         String   @id @default(cuid())
+  amount     Decimal  @db.Decimal(9, 2)
+  userId     String
+  contractId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("payment")
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  password      String?         @db.Text
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Payment   Payment[]
+  Property  Property[]
+  Clients   Clients[]
+
+  @@map("user")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+  @@map("account")
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+  @@map("session")
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
+  @@map("authenticator")
+}

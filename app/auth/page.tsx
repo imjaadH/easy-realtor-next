@@ -1,9 +1,7 @@
-import { Group, Button } from '@mantine/core'
-import Image from 'next/image'
-import GoogleIcon from '@/public/images/google-icon.svg'
-import GithubIcon from '@/public/images/github-icon.svg'
 import LoginForm from '@/components/auth/login-form'
 import { signIn } from '@/lib/auth'
+import { Button } from '@/components/ui/button'
+import RegisterForm from '@/components/auth/register-form'
 
 type Props = {}
 const AuthPage = ({}: Props) => {
@@ -13,16 +11,10 @@ const AuthPage = ({}: Props) => {
         <form
           action={async () => {
             'use server'
-            await signIn('google')
+            await signIn('google', { redirectTo: '/' })
           }}
         >
-          <Button
-            variant='outline'
-            type='submit'
-            leftSection={
-              <Image src={GoogleIcon} alt='google' width={20} height={20} />
-            }
-          >
+          <Button variant='outline' type='submit'>
             Login With Google
           </Button>
         </form>
@@ -32,18 +24,16 @@ const AuthPage = ({}: Props) => {
             await signIn('github')
           }}
         >
-          <Button
-            variant='outline'
-            type='submit'
-            leftSection={
-              <Image src={GithubIcon} alt='github' width={20} height={20} />
-            }
-          >
+          <Button variant='outline' type='submit'>
             Login With Github
           </Button>
         </form>
 
         <LoginForm />
+
+        <h3>Register Form</h3>
+
+        <RegisterForm />
       </section>
     </div>
   )
