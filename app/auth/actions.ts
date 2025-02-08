@@ -3,13 +3,14 @@ import { redirect } from 'next/navigation'
 import bcrypt from 'bcrypt'
 import { prisma } from '@/lib/prisma'
 
-type Response = {
+export type ActionResponse = {
   message: string
   type: 'success' | 'error'
+  data?: string
   error?: string
 }
 
-const createUser = async (formData: any): Promise<Response> => {
+const createUser = async (formData: any): Promise<ActionResponse> => {
   const { email, password } = formData
   try {
     const existingUser = await prisma.user.findFirst({

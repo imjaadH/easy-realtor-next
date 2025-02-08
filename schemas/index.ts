@@ -1,3 +1,4 @@
+import { Types } from '@/types'
 import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
@@ -11,4 +12,14 @@ export const credentialUserSchema = z.object({
     .min(1, 'Password is required')
     .min(8, 'Password must be more than 8 characters')
     .max(32, 'Password must be less than 32 characters'),
+})
+
+export const createAssetSchema = z.object({
+  userId: z.string().optional(),
+  type: z.nativeEnum(Types.PropertyType),
+  name: z.string().min(5),
+  location: z.string().min(5),
+  propertyValue: z.coerce.number().optional(),
+  rentCycle: z.number().optional(),
+  status: z.nativeEnum(Types.PropertyStatus).optional(),
 })

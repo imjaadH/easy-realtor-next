@@ -1,10 +1,8 @@
 import type { Metadata } from 'next'
-import { Inter, Noto_Sans } from 'next/font/google'
+import { Inter, Noto_Sans, Roboto_Mono } from 'next/font/google'
 import QueryProvider from '@/providers/QueryProvider'
 
 import './globals.css'
-
-import Navbar from '@/components/layout/navbar'
 
 const inter = Inter({ subsets: ['latin'] })
 

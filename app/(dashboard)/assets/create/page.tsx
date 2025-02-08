@@ -1,18 +1,19 @@
-import { AssetForm } from '@/components/forms/create-asset-form'
+import { SessionProvider } from 'next-auth/react'
+import CreateAsset from '@/components/create-asset'
 
 type Props = {}
-export const CreateAsset = ({}: Props) => {
+export const CreateAssetPage = async ({}: Props) => {
   return (
-    <div>
-      <div className='p-5'>
-        <h3 className='text-2xl font-semibold'>Your Estate</h3>
-        <p className='text-gray-500'>manage your properties here</p>
-        <section className='mt-6 mx-auto grid grid-cols-3'>
-          <AssetForm />
-        </section>
+    <SessionProvider>
+      <div>
+        <div className='p-5'>
+          <h3 className='text-2xl font-semibold'>Your Estate</h3>
+          <p className='text-gray-500'>manage your properties here</p>
+          <CreateAsset />
+        </div>
       </div>
-    </div>
+    </SessionProvider>
   )
 }
 
-export default CreateAsset
+export default CreateAssetPage
