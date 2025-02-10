@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Upload } from '@aws-sdk/lib-storage'
+import sharp from 'sharp'
 
 import s3 from '@/lib/aws'
 import { Readable } from 'stream'
@@ -14,7 +15,12 @@ export async function POST(request: NextRequest) {
   try {
     const response = await Promise.all(
       files.map(async file => {
-        const fileStream = Readable.from(file.stream() as any)
+        const fileBuffer = Buffer.from(await file.arrayBuffer())
+        const compressedMedia = await sharp(fileBuffer)
+          .resize({ width: 1200, fit: 'inside', withoutEnlargement: true })
+          .jpeg({ quality: 80 })
+          .toBuffer()
+        const fileStream = Readable.from(compressedMedia as any)
 
         const uploadTos3 = new Upload({
           client: s3,

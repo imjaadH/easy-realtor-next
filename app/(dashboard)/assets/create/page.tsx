@@ -5,12 +5,10 @@ type Props = {}
 export const CreateAssetPage = async ({}: Props) => {
   return (
     <SessionProvider>
-      <div>
-        <div className='p-5'>
-          <h3 className='text-2xl font-semibold'>Your Estate</h3>
-          <p className='text-gray-500'>manage your properties here</p>
-          <CreateAsset />
-        </div>
+      <div className='p-5'>
+        <h3 className='text-2xl font-semibold'>Add Property</h3>
+        <p className='text-gray-500'>add new property here</p>
+        <CreateAsset />
       </div>
     </SessionProvider>
   )

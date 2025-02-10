@@ -7,7 +7,7 @@ import { ClientList } from '@/components/clients/clients-list'
 export default function Home() {
   const icon = <Download />
   return (
-    <div className='flex flex-col p-5 max-w-7xl mx-auto'>
+    <div className='flex flex-col p-5 w-full mx-auto'>
       <div className='grid grid-cols-1 md:grid-cols-6 grid-rows-2 gap-2 mt-6 align-middle'>
         <div className='grid col-span-6 sm:col-span-4  '>
           {/* Analytics  */}

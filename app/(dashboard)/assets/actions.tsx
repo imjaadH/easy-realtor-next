@@ -4,6 +4,7 @@ import { ActionResponse } from '@/app/auth/actions'
 import { prisma } from '@/lib/prisma'
 import { createAssetSchema } from '@/schemas'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 
 const createAsset = async (data: any): Promise<ActionResponse> => {
   try {
@@ -33,5 +34,66 @@ const createAsset = async (data: any): Promise<ActionResponse> => {
     }
   }
 }
+const saveMediaPaths = async (
+  data: string[],
+  id: string,
+): Promise<ActionResponse> => {
+  try {
+    await Promise.all(
+      data.map(async path => {
+        const response = await prisma.gallery.create({
+          data: {
+            parentId: id,
+            path: path,
+          },
+        })
+        return response
+      }),
+    )
+    revalidatePath('/assets')
+    redirect('/assets')
+  } catch (error) {
+    return {
+      error: 'Failed to save gallery',
+      message: 'Failed to save gallery',
+      type: 'error',
+    }
+  }
+}
 
-export { createAsset }
+const getAssetDetails = async (id: string) => {
+  try {
+    const asset = await prisma.property.findFirst({
+      where: {
+        id,
+      },
+    })
+    const activeTenant = await prisma.contract.findFirst({
+      where: {
+        status: 'Active',
+        propertyId: id,
+      },
+      include: {
+        client: true,
+      },
+    })
+    const images = await prisma.gallery.findMany({
+      where: {
+        parentId: id,
+      },
+    })
+    return {
+      asset,
+      images,
+      activeTenant,
+    }
+  } catch (error) {
+    return {
+      error: 'Failed to get property',
+      message: 'Failed to get property',
+      type: 'error',
+    }
+  }
+}
+
+export { createAsset, saveMediaPaths, getAssetDetails }

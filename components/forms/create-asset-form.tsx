@@ -42,8 +42,10 @@ export const AssetForm: React.FC<FormProps> = ({ defaultData, onSubmit }) => {
             control={form.control}
             name='type'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-4 items-center gap-4'>
-                <FormLabel>Property Type</FormLabel>
+              <FormItem className='  items-center gap-4'>
+                <FormLabel className='text-xs font-semibold'>
+                  Property Type
+                </FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -69,8 +71,10 @@ export const AssetForm: React.FC<FormProps> = ({ defaultData, onSubmit }) => {
             control={form.control}
             name='name'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-4 items-center gap-4'>
-                <FormLabel>Property Name</FormLabel>
+              <FormItem className='  items-center gap-4'>
+                <FormLabel className='text-xs font-semibold'>
+                  Property Name
+                </FormLabel>
                 <FormControl className='col-span-3'>
                   <Input placeholder='friendly name' {...field} />
                 </FormControl>
@@ -82,8 +86,8 @@ export const AssetForm: React.FC<FormProps> = ({ defaultData, onSubmit }) => {
             control={form.control}
             name='location'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-4 items-center gap-4'>
-                <FormLabel>Address</FormLabel>
+              <FormItem className=' items-center gap-4'>
+                <FormLabel className='text-xs font-semibold'>Address</FormLabel>
                 <FormControl className='col-span-3'>
                   <Input placeholder='short location' {...field} />
                 </FormControl>
@@ -95,10 +99,15 @@ export const AssetForm: React.FC<FormProps> = ({ defaultData, onSubmit }) => {
             control={form.control}
             name='propertyValue'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-4 items-center gap-4'>
-                <FormLabel>Value</FormLabel>
+              <FormItem className=' items-center gap-4'>
+                <FormLabel className='text-xs font-semibold'>Value</FormLabel>
                 <FormControl className='col-span-3'>
-                  <Input type='number' placeholder='$0.00' {...field} />
+                  <Input
+                    type='number'
+                    placeholder='$0.00'
+                    maxLength={8}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage className='col-span-4' />
               </FormItem>
@@ -108,8 +117,8 @@ export const AssetForm: React.FC<FormProps> = ({ defaultData, onSubmit }) => {
             control={form.control}
             name='status'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-4 items-center gap-4'>
-                <FormLabel>Status</FormLabel>
+              <FormItem className=' items-center gap-4'>
+                <FormLabel className='text-xs font-semibold'>Status</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}

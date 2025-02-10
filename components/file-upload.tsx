@@ -2,6 +2,7 @@
 import React, { useRef, useState, memo } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
+import { Paperclip, Upload } from 'lucide-react'
 
 interface FileUploadProps {
   children: React.ReactNode
@@ -23,6 +24,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ children, onSelection }) => {
       />
 
       <Button onClick={() => inputRef?.current?.click()} className='mt-2'>
+        <Paperclip />
         Select files
       </Button>
     </div>
