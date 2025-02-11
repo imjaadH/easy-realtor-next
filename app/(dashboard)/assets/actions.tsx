@@ -96,4 +96,16 @@ const getAssetDetails = async (id: string) => {
   }
 }
 
-export { createAsset, saveMediaPaths, getAssetDetails }
+const getAllAssets = async (id: string, limit?: number) => {
+  return prisma.property.findMany({
+    where: {
+      userId: id,
+    },
+    take: limit ?? 10,
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
+}
+
+export { createAsset, saveMediaPaths, getAssetDetails, getAllAssets }

@@ -11,8 +11,7 @@ interface Props {
 
 const PropertyDetailsPage = async ({ params }: Props) => {
   const response = await getAssetDetails(params.assetId)
-  console.log(response)
-
+ 
   return (
     <div>
       {response.asset && (

@@ -14,21 +14,29 @@ import {
 } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
 import { Types } from '@/types'
+import { assetStatusIcon } from '@/components/common'
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export const columns: ColumnDef<Types.Clients>[] = [
+export const columns: ColumnDef<Types.Property>[] = [
+  {
+    accessorKey: 'type',
+    header: 'Type',
+  },
   {
     accessorKey: 'name',
-    header: 'Full name',
+    header: 'Name',
   },
   {
-    accessorKey: 'email',
-    header: 'Email address',
-  },
-  {
-    accessorKey: 'contact',
-    header: 'Contact',
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({ row }) => {
+      return (
+        <div title={row.original.status!}>
+          {assetStatusIcon[row.original.status!!]}
+        </div>
+      )
+    },
   },
   {
     accessorKey: 'createdAt',

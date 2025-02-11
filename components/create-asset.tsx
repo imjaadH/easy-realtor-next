@@ -13,15 +13,9 @@ import { useToast } from '@/hooks/use-toast'
 import FileList from './file-list'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
+import Loader from './loader'
 
 type Props = {}
-
-const Loader = () => (
-  <div className='flex items-center gap-2 text-gray-600 text-xs'>
-    Please wait..
-    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-  </div>
-)
 
 export const CreateAsset = ({}: Props) => {
   const { data: session } = useSession()

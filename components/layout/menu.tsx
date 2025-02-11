@@ -49,13 +49,13 @@ export const MenuItems = () => {
                   size={15}
                   className={cn(
                     `text-inherit`,
-                    item.active && 'text-slate-800 dark:text-neutral-200',
+                    item.active && 'text-indigo-800 dark:text-neutral-200',
                   )}
                 />
                 <p
                   className={cn(
                     `text-inherit text-sm font-normal  `,
-                    item.active && 'text-slate-800',
+                    item.active && 'text-indigo-800',
                   )}
                 >
                   {item.label}

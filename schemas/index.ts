@@ -26,9 +26,7 @@ export const createAssetSchema = z.object({
 
 export const createClientSchema = z.object({
   name: z.string().min(5),
-  email: z
-    .string({ required_error: 'Email is required' })
-    .min(1, 'Email is required')
-    .email('Invalid email'),
-  contact: z.string().min(5).optional(),
+  email: z.string().email(),
+  contact: z.string().min(5),
+  manager: z.string().optional(),
 })

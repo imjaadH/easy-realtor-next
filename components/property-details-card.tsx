@@ -3,25 +3,15 @@ import { format } from 'date-fns'
 import { Button } from './ui/button'
 import { Mail, Phone, SquareArrowOutUpRight, User, User2 } from 'lucide-react'
 import Link from 'next/link'
-import {
-  CircleCheckBig,
-  ContactRound,
-  TrafficCone,
-  WalletCards,
-} from 'lucide-react'
+
 import { ContractsList } from './contract/contract-list'
 import React from 'react'
+import { assetStatusIcon } from './common'
 
 type Props = {
   data: Types.Property
   activeTenant?: Types.Clients
   children?: React.ReactNode
-}
-const statusIcon = {
-  Active: <CircleCheckBig size={15} className='text-green-600' />,
-  Maintenance: <TrafficCone size={15} className='text-orange-600' />,
-  Rented: <ContactRound size={15} className='text-lime-600' />,
-  Sold: <WalletCards size={15} className='text-slate-600' />,
 }
 
 export const PropertyDetailsCard = ({
@@ -71,7 +61,7 @@ export const PropertyDetailsCard = ({
         <div className='flex flex-col gap-1'>
           <p className='text-xs text-gray-600 '>STATUS</p>
           <span className='text-sm flex gap-1 items-center'>
-            {statusIcon[data.status!!]}
+            {assetStatusIcon[data.status!!]}
             {data.status}
           </span>
         </div>
