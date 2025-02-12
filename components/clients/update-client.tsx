@@ -11,9 +11,9 @@ import {
 } from '@/components/ui/sheet'
 import { Button } from '../ui/button'
 import ClientForm, { ClientFormSchema } from '../forms/create-client-form'
-import { useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { createClient } from '@/app/(dashboard)/clients/actions'
+import { createClient, updateClient } from '@/app/(dashboard)/clients/actions'
 import { useToast } from '@/hooks/use-toast'
 import { Session } from 'next-auth'
 import Loader from '../loader'
@@ -22,21 +22,32 @@ import { Types } from '@/types'
 type Props = {
   session: Session
   defaultData?: Types.Clients
+  defaultOpen: boolean
+  children: ReactNode
 }
-const UpdateClient = ({ session, defaultData }: Props) => {
+
+const UpdateClient = ({
+  session,
+  defaultData,
+  defaultOpen,
+  children,
+}: Props) => {
   const [sheetOpen, setOpenSheet] = useState(false)
   const { toast } = useToast()
 
   const mutation = useMutation({
     mutationFn: async (values: ClientFormSchema & { id?: string }) =>
-      await createClient({ ...values, manager: session.user?.id }),
+      defaultData
+        ? await updateClient({ ...values }, defaultData.id)
+        : await createClient({ ...values, manager: session.user?.id }),
+
     onSuccess(data) {
       if (data.type == 'success') {
         setOpenSheet(prev => !prev)
       } else {
         toast({
           variant: 'destructive',
-          title: 'Error: could not create client',
+          title: data.error,
         })
       }
     },
@@ -45,17 +56,21 @@ const UpdateClient = ({ session, defaultData }: Props) => {
   async function onSubmit(values: ClientFormSchema) {
     mutation.mutate(values)
   }
+
+  useEffect(() => {
+    setOpenSheet(prev => !prev)
+  }, [defaultOpen])
+
   const loading = mutation.status === 'pending'
+
   return (
     <div>
       <Sheet onOpenChange={setOpenSheet} open={sheetOpen}>
-        <SheetTrigger asChild>
-          <Button>Add Client</Button>
-        </SheetTrigger>
+        <SheetTrigger asChild>{children}</SheetTrigger>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>
-              {defaultData ? 'Edit client' : 'Add new client'}
+              {defaultData?.contact ? 'Edit client' : 'Add new client'}
             </SheetTitle>
             <SheetDescription>
               Make changes to your client here. Click save when you're done.

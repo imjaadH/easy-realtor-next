@@ -1,7 +1,11 @@
+import { Session } from 'next-auth'
 import Image from 'next/image'
 
-type Props = {}
-const ProfileButton = ({}: Props) => {
+type Props = {
+  session: Session
+}
+const ProfileButton = ({ session }: Props) => {
+  if (!session.user) return 'Please login'
   return (
     <div className='flex items-center gap-2'>
       <div className='rounded h-7 w-7 relative'>
@@ -9,14 +13,12 @@ const ProfileButton = ({}: Props) => {
           alt='profileImage'
           fill
           priority
-          src={
-            'https://static.wikia.nocookie.net/gtawiki/images/a/a8/MichaelDeSanta-GTAVee.png/revision/latest?cb=20220318234033'
-          }
+          src={session.user.image!}
           className='rounded'
           placeholder='empty'
         />
       </div>
-      <p className='text-sm text-slate-950'>Franklin</p>
+      <p className='text-sm text-slate-950'>{session.user.name}</p>
     </div>
   )
 }

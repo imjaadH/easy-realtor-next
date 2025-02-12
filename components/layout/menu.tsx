@@ -40,11 +40,16 @@ export const MenuItems = () => {
   )
   return (
     <>
-      <ul className='flex gap-2 rounded-full p-2 border border-gray-100 bg-white'>
+      <ul className='flex gap-2 p-1 rounded-full border border-gray-100 bg-white'>
         {routes.map((item, index) => (
           <li key={index}>
             <Link href={item.href}>
-              <div className=' flex gap-2 px-2 items-center text-gray-700  hover:text-black'>
+              <div
+                className={cn(
+                  `flex gap-2 p-2 px-2 items-center rounded-full text-gray-700  hover:text-black hover:bg-neutral-100`,
+                  item.active && 'bg-neutral-100',
+                )}
+              >
                 <item.icon
                   size={15}
                   className={cn(
@@ -55,7 +60,7 @@ export const MenuItems = () => {
                 <p
                   className={cn(
                     `text-inherit text-sm font-normal  `,
-                    item.active && 'text-indigo-800',
+                    item.active && 'text-indigo-800 font-semibold',
                   )}
                 >
                   {item.label}

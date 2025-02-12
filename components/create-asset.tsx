@@ -12,12 +12,14 @@ import { useToast } from '@/hooks/use-toast'
 
 import FileList from './file-list'
 import { useRouter } from 'next/navigation'
-import { Loader2 } from 'lucide-react'
 import Loader from './loader'
+import { Types } from '@/types'
 
-type Props = {}
+type Props = {
+  defaultData?: Types.Property
+}
 
-export const CreateAsset = ({}: Props) => {
+export const CreateAsset = ({ defaultData }: Props) => {
   const { data: session } = useSession()
   const [files, setFiles] = useState<File[]>([])
   const [mediaPaths, setMediaPaths] = useState<string[]>([])
@@ -97,7 +99,7 @@ export const CreateAsset = ({}: Props) => {
               {(loading || galleryLoading) && <Loader />}
             </div>
 
-            <AssetForm onSubmit={onSubmit} />
+            <AssetForm onSubmit={onSubmit} defaultData={defaultData} />
           </div>
         </div>
         {/* Status panel */}

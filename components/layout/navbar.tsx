@@ -1,14 +1,14 @@
-'use client'
-
 import { cn } from '@/lib/utils'
 import { MenuItems } from './menu'
 import ProfileButton from './profile-button'
 import Link from 'next/link'
+import { auth } from '@/lib/auth'
 interface NavbarProps {
   children?: React.ReactNode
   className?: string
 }
-const Navbar: React.FC<NavbarProps> = ({ children, className }) => {
+const Navbar: React.FC<NavbarProps> = async ({ children, className }) => {
+  const session = await auth()
   return (
     <header
       className={cn(
@@ -22,7 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({ children, className }) => {
 
       <MenuItems />
       <Link href={'/profile'}>
-        <ProfileButton />
+        <ProfileButton session={session!} />
       </Link>
     </header>
   )

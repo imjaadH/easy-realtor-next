@@ -11,15 +11,9 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { z } from 'zod'
-import { useToast } from '@/hooks/use-toast'
-import { useEffect } from 'react'
 import { Button } from '../ui/button'
-import { useMutation } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
 import { createClientSchema } from '@/schemas'
 import { Types } from '@/types'
-
-import { createClient } from '@/app/(dashboard)/clients/actions'
 
 export type ClientFormSchema = z.infer<typeof createClientSchema>
 
@@ -29,13 +23,16 @@ interface FormProps {
   onSubmit: (e: any) => void
 }
 
-const ClientForm: React.FC<FormProps> = ({
-  onFormSubmitted,
-  defaultData,
-  onSubmit,
-}) => {
+const ClientForm: React.FC<FormProps> = ({ defaultData, onSubmit }) => {
   const form = useForm<ClientFormSchema>({
     resolver: zodResolver(createClientSchema),
+    defaultValues: defaultData
+      ? {
+          contact: defaultData?.contact! ?? '',
+          email: defaultData?.email ?? '',
+          name: defaultData?.name,
+        }
+      : undefined,
   })
 
   return (

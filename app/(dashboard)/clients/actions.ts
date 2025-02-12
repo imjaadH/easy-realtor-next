@@ -28,7 +28,6 @@ const getClients = async (creator: string, limit?: number) => {
 const createClient = async (data: any): Promise<ActionResponse> => {
   try {
     const validation = createClientSchema.safeParse(data)
-    console.log(validation)
 
     if (validation.success) {
       const response = await prisma.clients.create({
@@ -56,5 +55,36 @@ const createClient = async (data: any): Promise<ActionResponse> => {
     }
   }
 }
+const updateClient = async (data: any, id: string): Promise<ActionResponse> => {
+  try {
+    const validation = createClientSchema.safeParse(data)
+    if (validation.success) {
+      await prisma.clients.update({
+        where: {
+          id,
+        },
+        data: validation.data,
+      })
 
-export { getClientDetails, getClients, createClient }
+      revalidatePath('/clients')
+      return {
+        type: 'success',
+        message: 'client updated',
+      }
+    }
+
+    return {
+      type: 'error',
+      error: 'Validation failed',
+      message: 'Error occured',
+    }
+  } catch (error) {
+    return {
+      type: 'error',
+      error: 'Prisma operation error',
+      message: 'Error occured',
+    }
+  }
+}
+
+export { getClientDetails, getClients, createClient, updateClient }

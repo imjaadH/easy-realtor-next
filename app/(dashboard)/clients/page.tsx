@@ -14,11 +14,7 @@ const ClientsPage = async ({}: Props) => {
         <p className='text-2xl font-semibold'>Manage Clients</p>
 
         <section className='mt-6 mx-auto w-full '>
-          <div className='flex justify-end'>
-            <UpdateClient session={session} />
-          </div>
-
-          <ClientsTable clients={response} />
+          <ClientsTable clients={response} session={session} />
         </section>
       </div>
     )

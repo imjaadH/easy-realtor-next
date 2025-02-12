@@ -13,49 +13,64 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { MoreHorizontal } from 'lucide-react'
-import Link from 'next/link'
+import { Session } from 'next-auth'
+import UpdateClient from './update-client'
+import { useState } from 'react'
 
-type Props = { clients: Types.Clients[] }
-const ClientsTable = ({ clients }: Props) => {
+type Props = { clients: Types.Clients[]; session: Session }
+const ClientsTable = ({ clients, session }: Props) => {
+  const [selectedItem, setSelectedItem] = useState<Types.Clients | null>(null)
+  const [formOpen, setFormOpen] = useState(false)
+
   return (
-    <DataTable
-      columns={[
-        ...columns,
-        {
-          id: 'actions',
-          cell: ({ row }) => {
-            const client = row.original
+    <>
+      <div className='flex justify-end'>
+        <UpdateClient
+          session={session}
+          defaultOpen={formOpen}
+          defaultData={selectedItem!!}
+          children={
+            <Button onClick={() => setSelectedItem(null)}>Add Client</Button>
+          }
+        />
+      </div>
+      <DataTable
+        columns={[
+          ...columns,
+          {
+            id: 'actions',
+            cell: ({ row }) => {
+              const client = row.original
 
-            return (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant='ghost' className='h-8 w-8 p-0'>
-                    <span className='sr-only'>Open menu</span>
-                    <MoreHorizontal className='h-4 w-4' />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align='end'>
-                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <Link href={`/dashboard/vehicles/${client.id}/update`}>
-                    <DropdownMenuItem className='cursor-pointer'>
+              return (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant='ghost' className='h-8 w-8 p-0'>
+                      <span className='sr-only'>Open menu</span>
+                      <MoreHorizontal className='h-4 w-4' />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align='end'>
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuItem
+                      className='cursor-pointer'
+                      onSelect={() => {
+                        setSelectedItem(client)
+                        setFormOpen(prev => !prev)
+                      }}
+                    >
                       Update
                     </DropdownMenuItem>
-                  </Link>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    className='text-red-600 cursor-pointer hover:text-red-950'
-                    onClick={() => null}
-                  >
-                    Remove
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )
+                    <DropdownMenuSeparator />
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )
+            },
           },
-        },
-      ]}
-      data={clients ?? []}
-    />
+        ]}
+        data={clients ?? []}
+      />
+    </>
   )
 }
 
