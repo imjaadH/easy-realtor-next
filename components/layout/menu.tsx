@@ -1,7 +1,13 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { Banknote, Building2, ChartSpline, Users } from 'lucide-react'
+import {
+  Banknote,
+  Building2,
+  ChartSpline,
+  ReceiptText,
+  Users,
+} from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useMemo } from 'react'
@@ -30,10 +36,10 @@ export const MenuItems = () => {
       },
 
       {
-        icon: ChartSpline,
-        label: 'Analytics',
-        active: pathname === '/analytics',
-        href: '/analytics',
+        icon: ReceiptText,
+        label: 'Contracts',
+        active: pathname === '/contracts',
+        href: '/contracts',
       },
     ],
     [pathname],

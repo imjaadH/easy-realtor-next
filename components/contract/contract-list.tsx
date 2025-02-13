@@ -1,5 +1,5 @@
 import { getAssetContracts } from '@/app/(dashboard)/contracts/actions'
-import { format } from 'date-fns'
+import { format, differenceInDays, formatDistance } from 'date-fns'
 import { CalendarCheck, CircleCheckBig, CircleX, Contact } from 'lucide-react'
 
 type Props = {
@@ -40,8 +40,11 @@ export const ContractsList = async ({ assetId }: Props) => {
               </div>
 
               <p className='text-xs font-semibold'>
-                Duration {item.duration} days | ${' '}
-                {item.costPerMonth?.toString()}
+                Duration{' '}
+                {formatDistance(item.startDate!, item.endDate!, {
+                  addSuffix: false,
+                })}{' '}
+                | $ {item.costPerMonth?.toString()}
               </p>
 
               <p className='text-sm text-gray-700 mt-2'> {item.description} </p>

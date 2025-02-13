@@ -20,13 +20,23 @@ import { assetStatusIcon } from '@/components/common'
 
 export const columns: ColumnDef<Types.Property>[] = [
   {
+    accessorKey: 'name',
+    header: 'Name',
+    cell: ({ row }) => {
+      return (
+        <div>
+          <Link href={`/assets/${row.original.id}`} className='underline'>
+            {row.original.name}
+          </Link>
+        </div>
+      )
+    },
+  },
+  {
     accessorKey: 'type',
     header: 'Type',
   },
-  {
-    accessorKey: 'name',
-    header: 'Name',
-  },
+
   {
     accessorKey: 'status',
     header: 'Status',

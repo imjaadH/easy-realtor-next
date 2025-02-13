@@ -1,5 +1,4 @@
 import { Types } from '@/types'
-import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
 export const credentialUserSchema = z.object({
@@ -29,4 +28,14 @@ export const createClientSchema = z.object({
   email: z.string().email(),
   contact: z.string().min(5),
   manager: z.string().optional(),
+})
+
+export const createContractSchema = z.object({
+  clientId: z.string(),
+  createdBy: z.string().optional(),
+  propertyId: z.string(),
+  startDate: z.date(),
+  endDate: z.date(),
+  description: z.string(),
+  costPerMonth: z.coerce.number().optional(),
 })

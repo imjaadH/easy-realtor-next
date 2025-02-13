@@ -99,12 +99,13 @@ model Payment {
 model Contract {
   id           String          @id @default(cuid())
   clientId     String
+  createdBy    String
   propertyId   String
-  duration     Int             @default(30)
+  endDate      DateTime?
   description  String          @db.Text
   status       ContractStatus? @default(Active)
   //could be used for contract extension
-  startDate    DateTime?
+  startDate    DateTime
   costPerMonth Decimal?        @default(0.00) @db.Decimal(9, 2)
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt

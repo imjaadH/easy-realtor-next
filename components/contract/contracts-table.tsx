@@ -12,27 +12,30 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { MoreHorizontal, User, User2 } from 'lucide-react'
+import { MoreHorizontal, ReceiptIcon, ReceiptTextIcon } from 'lucide-react'
 import { Session } from 'next-auth'
-import UpdateClient from './update-client'
 import { useState } from 'react'
+import UpdateContract from './update-contract'
 
-type Props = { clients: Types.Clients[]; session: Session }
-const ClientsTable = ({ clients, session }: Props) => {
-  const [selectedItem, setSelectedItem] = useState<Types.Clients | null>(null)
+type Props = {
+  contracts: Types.Contract[]
+  session: Session
+}
+const ContractsTable = ({ contracts, session }: Props) => {
   const [formOpen, setFormOpen] = useState(false)
+  const [selectedItem, setSelectedItem] = useState<Types.Contract | null>(null)
 
   return (
-    <>
+    <div>
       <div className='flex justify-end'>
-        <UpdateClient
+        <UpdateContract
           session={session}
           defaultOpen={formOpen}
           defaultData={selectedItem!!}
           trigger={
             <Button onClick={() => setSelectedItem(null)}>
-              Add Client
-              <User2 />
+              Add Contract
+              <ReceiptTextIcon />
             </Button>
           }
         />
@@ -58,8 +61,8 @@ const ClientsTable = ({ clients, session }: Props) => {
                     <DropdownMenuItem
                       className='cursor-pointer'
                       onSelect={() => {
-                        setSelectedItem(client)
-                        setFormOpen(prev => !prev)
+                        // setSelectedItem(client)
+                        // setFormOpen(prev => !prev)
                       }}
                     >
                       Update
@@ -71,10 +74,10 @@ const ClientsTable = ({ clients, session }: Props) => {
             },
           },
         ]}
-        data={clients ?? []}
+        data={contracts ?? []}
       />
-    </>
+    </div>
   )
 }
 
-export default ClientsTable
+export default ContractsTable

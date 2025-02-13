@@ -1,7 +1,6 @@
 import { auth } from '@/lib/auth'
 
 import { getClients } from './actions'
-import UpdateClient from '@/components/clients/update-client'
 import ClientsTable from '@/components/clients/clients-table'
 
 type Props = {}

@@ -23,14 +23,14 @@ type Props = {
   session: Session
   defaultData?: Types.Clients
   defaultOpen: boolean
-  children: ReactNode
+  trigger: ReactNode
 }
 
 const UpdateClient = ({
   session,
   defaultData,
   defaultOpen,
-  children,
+  trigger,
 }: Props) => {
   const [sheetOpen, setOpenSheet] = useState(false)
   const { toast } = useToast()
@@ -66,7 +66,7 @@ const UpdateClient = ({
   return (
     <div>
       <Sheet onOpenChange={setOpenSheet} open={sheetOpen}>
-        <SheetTrigger asChild>{children}</SheetTrigger>
+        <SheetTrigger asChild>{trigger}</SheetTrigger>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>

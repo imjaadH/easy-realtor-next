@@ -103,7 +103,7 @@ const getAllAssets = async (id: string, limit?: number) => {
     },
     take: limit ?? 10,
     orderBy: {
-      createdAt: 'desc',
+      updatedAt: 'desc',
     },
   })
 }
