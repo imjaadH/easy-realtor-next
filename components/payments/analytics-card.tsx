@@ -13,7 +13,7 @@ export const AnalyticsCard = ({}: Props) => {
     <div className='flex flex-col gap-2 rounded-md border border-gray-100 p-3 bg-white'>
       <div className='flex items-center justify-between'>
         <div className='mb-2'>
-          <p className='font-light text-gray-600 text-sm'>Payments</p>
+          <p className='text-sm font-semibold'>Clients</p>
           <p className='text-lg font-semibold'>$154,256.02</p>
         </div>
         <Select>

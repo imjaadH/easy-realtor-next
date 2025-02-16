@@ -12,7 +12,7 @@ import {
 import { Button } from '../ui/button'
 import ClientForm, { ClientFormSchema } from '../forms/create-client-form'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
-import { useMutation, useQueries } from '@tanstack/react-query'
+import { useMutation, useQueries, useQuery } from '@tanstack/react-query'
 import {
   createClient,
   getClients,
@@ -28,16 +28,19 @@ import { getAllAssets } from '@/app/(dashboard)/assets/actions'
 import {
   createContract,
   editContract,
+  getAllContracts,
 } from '@/app/(dashboard)/contracts/actions'
+import PaymentForm, { PaymentFormSchema } from '../forms/create-payment-form'
+import { createPayment, editPayment } from '@/app/(dashboard)/payments/actions'
 
 type Props = {
   session: Session
-  defaultData?: Types.Contract
+  defaultData?: Types.Payment
   defaultOpen: boolean
   trigger: ReactNode
 }
 
-const UpdateContract = ({
+const UpdatePayment = ({
   session,
   defaultData,
   defaultOpen,
@@ -46,28 +49,16 @@ const UpdateContract = ({
   const [sheetOpen, setOpenSheet] = useState(false)
   const { toast } = useToast()
 
-  const [assetsFn, clientsFn] = useQueries({
-    queries: [
-      {
-        queryKey: ['all-assets'],
-        queryFn: async () => await getAllAssets(session.user?.id!, 50),
-        refetchOnWindowFocus: false,
-      },
-      {
-        queryKey: ['all-clients'],
-        queryFn: async () => await getClients(session.user?.id!, 50),
-        refetchOnWindowFocus: false,
-      },
-    ],
+  const contractsFn = useQuery({
+    queryKey: ['contracts-user'],
+    queryFn: async () => await getAllContracts(session.user?.id!, 50),
+    refetchOnWindowFocus: false,
   })
   const mutation = useMutation({
-    mutationFn: async (values: ContractFormSchema) =>
+    mutationFn: async (values: PaymentFormSchema) =>
       defaultData
-        ? await editContract(
-            { ...values, createdBy: session.user?.id! },
-            defaultData.id,
-          )
-        : await createContract({ ...values, createdBy: session.user?.id! }),
+        ? await editPayment({ ...values }, defaultData.id)
+        : await createPayment({ ...values, userId: session.user?.id! }),
 
     onSuccess(data) {
       if (data.type == 'success') {
@@ -81,7 +72,7 @@ const UpdateContract = ({
     },
   })
 
-  async function onSubmit(values: ContractFormSchema) {
+  async function onSubmit(values: PaymentFormSchema) {
     mutation.mutate(values)
   }
 
@@ -91,33 +82,30 @@ const UpdateContract = ({
 
   const loading = mutation.status === 'pending'
 
-  const clientsData = useMemo(() => {
-    return clientsFn.data?.length
-      ? clientsFn.data.map(item => ({ label: item.name, value: item.id }))
+  const contracts = useMemo(() => {
+    return contractsFn.data?.length
+      ? contractsFn.data.map(item => ({
+          label: item.property?.name + '\n' + item.client?.name,
+          value: item.id,
+        }))
       : []
-  }, [clientsFn.data])
-
-  const assetsData = useMemo(() => {
-    return assetsFn.data?.length
-      ? assetsFn.data.map(item => ({ label: item.name, value: item.id }))
-      : []
-  }, [assetsFn.data])
+  }, [contractsFn.data])
 
   return (
     <div>
       <Sheet onOpenChange={setOpenSheet} open={sheetOpen}>
-        {assetsFn.isPending || clientsFn.isPending ? null : (
+        {contractsFn.isPending ? null : (
           <SheetTrigger asChild>{trigger}</SheetTrigger>
         )}
 
         <SheetContent className='overflow-y-auto'>
           <SheetHeader>
             <SheetTitle>
-              {defaultData?.id ? 'Edit contract' : 'Add new contract'}
+              {defaultData?.id ? 'Edit payment' : 'Add new payment'}
             </SheetTitle>
             <SheetDescription>
-              Create new contract or make changes to existing contract here.
-              Click save when you're done.
+              Create new payment or make changes to existing payment here. Click
+              save when you're done.
             </SheetDescription>
           </SheetHeader>
 
@@ -126,13 +114,10 @@ const UpdateContract = ({
           )}
 
           <div className='grid gap-4 py-4'>
-            <ContractForm
+            <PaymentForm
               defaultData={defaultData}
-              propertyPicker={props => (
-                <FormSelect items={assetsData} formProps={props} />
-              )}
-              clientPicker={props => (
-                <FormSelect items={clientsData} formProps={props} />
+              contractPicker={props => (
+                <FormSelect items={contracts} formProps={props} />
               )}
               onSubmit={onSubmit}
             />
@@ -144,4 +129,4 @@ const UpdateContract = ({
   )
 }
 
-export default UpdateContract
+export default UpdatePayment

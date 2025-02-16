@@ -108,4 +108,21 @@ const getAllAssets = async (id: string, limit?: number) => {
   })
 }
 
-export { createAsset, saveMediaPaths, getAssetDetails, getAllAssets }
+const getAssetMedia = async (id: string) => {
+  return await prisma.gallery.findMany({
+    where: {
+      parentId: id,
+    },
+    select: {
+      path: true,
+    },
+  })
+}
+
+export {
+  createAsset,
+  saveMediaPaths,
+  getAssetDetails,
+  getAllAssets,
+  getAssetMedia,
+}

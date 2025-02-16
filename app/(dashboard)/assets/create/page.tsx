@@ -1,8 +1,7 @@
 import { SessionProvider } from 'next-auth/react'
 import CreateAsset from '@/components/create-asset'
 
-type Props = {}
-export const CreateAssetPage = async ({}: Props) => {
+export const CreateAssetPage = async () => {
   return (
     <SessionProvider>
       <div className='p-5'>

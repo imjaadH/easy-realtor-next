@@ -4,11 +4,12 @@ import { ColumnDef } from '@tanstack/react-table'
 import { parseISO, format, formatDistanceToNowStrict } from 'date-fns'
 
 import { Types } from '@/types'
+import { contractStatusIcon } from '../common'
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
 export const columns: ColumnDef<
-  Types.Contract & { property: Types.Property }
+  Types.Contract & { property?: Types.Property }
 >[] = [
   {
     accessorKey: 'starDate',
@@ -18,13 +19,23 @@ export const columns: ColumnDef<
     },
   },
   {
-    accessorKey: 'status',
-    header: 'Status',
-  },
-  {
+    accessorKey: 'endDate',
     header: 'Unit',
     cell: ({ row }) => {
-      return <div>{row.original.property.name}</div>
+      return <div>{row.original.property?.name}</div>
+    },
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({ row }) => {
+      return (
+        <div className='flex items-center gap-2'>
+          {contractStatusIcon[row.original.status!]}
+
+          {row.original.status}
+        </div>
+      )
     },
   },
 
@@ -34,10 +45,12 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       return (
         <div className='flex'>
-          {formatDistanceToNowStrict(row.original.endDate!, {
-            addSuffix: true,
-            roundingMethod: 'floor',
-          })}
+          {row.original.status === 'Active'
+            ? formatDistanceToNowStrict(row.original.endDate!, {
+                addSuffix: true,
+                roundingMethod: 'floor',
+              })
+            : row.original.status}
         </div>
       )
     },

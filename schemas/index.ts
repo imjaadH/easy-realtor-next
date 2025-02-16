@@ -39,3 +39,9 @@ export const createContractSchema = z.object({
   description: z.string(),
   costPerMonth: z.coerce.number().optional(),
 })
+
+export const createPaymentSchema = z.object({
+  amount: z.coerce.number({ required_error: 'amount is required' }),
+  userId: z.string().optional(),
+  contractId: z.string({ required_error: 'valid contract is required' }),
+})

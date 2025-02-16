@@ -91,7 +91,8 @@ model Payment {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User?     @relation(fields: [userId], references: [id], onDelete: NoAction)
+  contract Contract? @relation(fields: [contractId], references: [id], onDelete: NoAction)
 
   @@map("payment")
 }
@@ -112,6 +113,7 @@ model Contract {
 
   property Property? @relation(fields: [propertyId], references: [id], onDelete: NoAction)
   client   Clients?  @relation(fields: [clientId], references: [id])
+  Payment  Payment[]
 
   @@map("contract")
 }

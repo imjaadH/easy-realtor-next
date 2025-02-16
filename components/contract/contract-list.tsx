@@ -1,15 +1,10 @@
 import { getAssetContracts } from '@/app/(dashboard)/contracts/actions'
 import { format, differenceInDays, formatDistance } from 'date-fns'
 import { CalendarCheck, CircleCheckBig, CircleX, Contact } from 'lucide-react'
+import { contractStatusIcon } from '../common'
 
 type Props = {
   assetId: string
-}
-
-const statusIcon = {
-  Active: <CircleCheckBig size={17} className='text-purple-600' />,
-  Completed: <CalendarCheck size={17} className='text-green-600' />,
-  Terminated: <CircleX size={17} className='text-red-600' />,
 }
 
 export const ContractsList = async ({ assetId }: Props) => {
@@ -26,7 +21,11 @@ export const ContractsList = async ({ assetId }: Props) => {
           <div className='flex gap-2'>
             <div>
               <div className='rounded-full bg-white inline-flex relative p-1 border '>
-                {statusIcon[item?.status as keyof typeof statusIcon]}
+                {
+                  contractStatusIcon[
+                    item?.status as keyof typeof contractStatusIcon
+                  ]
+                }
               </div>
             </div>
 

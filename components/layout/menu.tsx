@@ -52,7 +52,7 @@ export const MenuItems = () => {
             <Link href={item.href}>
               <div
                 className={cn(
-                  `flex gap-2 p-2 px-2 items-center rounded-full text-gray-700  hover:text-black hover:bg-neutral-100`,
+                  `  transition  duration-200 ease-in-out flex gap-2 p-2 px-2 items-center rounded-full text-gray-700  hover:text-black hover:bg-neutral-100`,
                   item.active && 'bg-neutral-100',
                 )}
               >

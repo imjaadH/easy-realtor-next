@@ -22,9 +22,13 @@ const FormSelect: React.FC<FormSelectProps> = ({ formProps, items }) => {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {items.map(item => {
+          {items.map((item, index) => {
             return (
-              <SelectItem value={item.value} className='hover:bg-gray-100'>
+              <SelectItem
+                key={index}
+                value={item.value}
+                className='hover:bg-gray-100'
+              >
                 {item.label}
               </SelectItem>
             )

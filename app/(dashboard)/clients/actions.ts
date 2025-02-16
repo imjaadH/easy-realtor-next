@@ -87,4 +87,30 @@ const updateClient = async (data: any, id: string): Promise<ActionResponse> => {
   }
 }
 
-export { getClientDetails, getClients, createClient, updateClient }
+const getDashboardClients = async (creator: string, limit?: number) => {
+  return await prisma.clients.findMany({
+    take: limit ?? 5,
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      Contract: {
+        take: 1,
+        where: {
+          status: 'Active',
+        },
+        include: {
+          property: true,
+        },
+      },
+    },
+  })
+}
+
+export {
+  getClientDetails,
+  getClients,
+  createClient,
+  updateClient,
+  getDashboardClients,
+}

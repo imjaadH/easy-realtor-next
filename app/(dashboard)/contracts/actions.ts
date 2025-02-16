@@ -69,4 +69,81 @@ const createContract = async (data: any): Promise<ActionResponse> => {
   }
 }
 
-export { getAssetContracts, getAllContracts, createContract }
+const editContract = async (data: any, id: string): Promise<ActionResponse> => {
+  try {
+    const validation = createContractSchema.safeParse(data)
+
+    if (validation.success) {
+      const response = await prisma.contract.update({
+        where: {
+          id,
+        },
+        data: { ...validation.data, createdBy: data.createdBy },
+      })
+
+      revalidatePath('/contracts')
+      return {
+        type: 'success',
+        message: 'Contract updated successfully',
+        data: response.id,
+      }
+    }
+    return {
+      message: 'Error: validation error',
+      type: 'error',
+    }
+  } catch (error) {
+    return {
+      type: 'error',
+      error: 'Prisma error',
+      message: 'Prisma error',
+    }
+  }
+}
+
+const updateContractStatus = async (values: {
+  id: string
+  propertyId: string
+  status: Types.ContractStatus
+}): Promise<ActionResponse> => {
+  try {
+    await prisma.contract.update({
+      where: {
+        id: values.id,
+      },
+      data: {
+        status: values.status,
+      },
+    })
+
+    await prisma.property.update({
+      where: {
+        id: values.propertyId,
+      },
+      data: {
+        status: 'Active',
+      },
+    })
+
+    revalidatePath('/contracts')
+
+    return {
+      type: 'success',
+      message: 'contract updated successfully',
+    }
+  } catch (error) {
+    return {
+      error: 'Prisma error',
+      type: 'error',
+      message: 'unable to update contract',
+    }
+  }
+}
+
+export {
+  getAssetContracts,
+  getAllContracts,
+  createContract,
+  editContract,
+  updateContractStatus,
+}

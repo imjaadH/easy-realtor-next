@@ -26,11 +26,12 @@ export type ContractFormSchema = z.infer<typeof createContractSchema>
 
 type FormControlChange = {
   value?: string
+  disabled?: boolean
   onChange: (value: string) => void
 }
 interface FormProps {
   onFormSubmitted?: () => void
-  defaultData?: Types.Clients | undefined
+  defaultData?: Types.Contract | undefined
   propertyPicker: React.ComponentType<FormControlChange>
   clientPicker: React.ComponentType<FormControlChange>
   onSubmit: (e: any) => void
@@ -45,7 +46,12 @@ const ContractForm: React.FC<FormProps> = ({
   const form = useForm<ContractFormSchema>({
     resolver: zodResolver(createContractSchema),
     defaultValues: {
-      startDate: new Date(),
+      startDate: defaultData?.startDate ?? new Date(),
+      endDate: defaultData?.endDate!,
+      clientId: defaultData?.clientId!,
+      propertyId: defaultData?.propertyId!,
+      description: defaultData?.description,
+      costPerMonth: Number(defaultData?.costPerMonth),
     },
   })
 
@@ -56,6 +62,7 @@ const ContractForm: React.FC<FormProps> = ({
           <FormField
             control={form.control}
             name='propertyId'
+            disabled={Boolean(defaultData?.propertyId!) ?? false}
             render={({ field }) => (
               <FormItem className='grid items-center mt-2'>
                 <FormLabel>Select property</FormLabel>
@@ -70,6 +77,7 @@ const ContractForm: React.FC<FormProps> = ({
           <FormField
             control={form.control}
             name='clientId'
+            disabled={Boolean(defaultData?.clientId!) ?? false}
             render={({ field }) => (
               <FormItem className='grid items-center mt-2'>
                 <FormLabel>Select client</FormLabel>

@@ -1,8 +1,7 @@
 'use client'
 
 import { Types } from '@/types'
-import { DataTable } from './data-table'
-import { columns } from './columns'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,50 +20,46 @@ import {
 } from 'lucide-react'
 import { Session } from 'next-auth'
 import { useState } from 'react'
-import UpdateContract from './update-contract'
+
 import { useMutation } from '@tanstack/react-query'
 import { updateContractStatus } from '@/app/(dashboard)/contracts/actions'
 import { ContractStatus } from '@prisma/client'
 import Loader from '../loader'
+import UpdatePayment from './update-payment'
+import { DataTable } from './data-table'
+import { columns } from './columns'
 
 type Props = {
-  contracts: Types.Contract[]
+  payments: Types.Payment[]
   session: Session
 }
-const ContractsTable = ({ contracts, session }: Props) => {
+const PaymentsTable = ({ payments, session }: Props) => {
   const [formOpen, setFormOpen] = useState(false)
-  const [selectedItem, setSelectedItem] = useState<Types.Contract | null>(null)
-  const mutation = useMutation({
-    mutationKey: ['update-contract'],
-    mutationFn: async (values: {
-      id: string
-      propertyId: string
-      status: ContractStatus
-    }) => await updateContractStatus(values),
-  })
+  const [selectedItem, setSelectedItem] = useState<Types.Payment | null>(null)
+
   return (
     <div>
       <div className='flex justify-end'>
-        <UpdateContract
+        <UpdatePayment
           session={session}
           defaultOpen={formOpen}
           defaultData={selectedItem!!}
           trigger={
             <Button onClick={() => setSelectedItem(null)}>
-              Add Contract
+              Add Payment
               <ReceiptTextIcon />
             </Button>
           }
         />
       </div>
-      {mutation.isPending && <Loader />}
+
       <DataTable
         columns={[
           ...columns,
           {
             id: 'actions',
             cell: ({ row }) => {
-              const contract = row.original
+              const payment = row.original
 
               return (
                 <DropdownMenu>
@@ -77,42 +72,13 @@ const ContractsTable = ({ contracts, session }: Props) => {
                   <DropdownMenuContent align='end'>
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuItem
-                      disabled={contract.status !== 'Active'}
                       className='cursor-pointer'
                       onSelect={() => {
-                        setSelectedItem(contract)
+                        setSelectedItem(payment)
                         setFormOpen(prev => !prev)
                       }}
                     >
                       Update
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      disabled={contract.status !== 'Active'}
-                      className='cursor-pointer'
-                      onSelect={() => {
-                        mutation.mutate({
-                          id: contract.id,
-                          propertyId: contract.propertyId,
-                          status: ContractStatus.Completed,
-                        })
-                      }}
-                    >
-                      <Check />
-                      Mark as Completed
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      disabled={contract.status !== 'Active'}
-                      className='cursor-pointer text-red-700'
-                      onSelect={() => {
-                        mutation.mutate({
-                          id: contract.id,
-                          propertyId: contract.propertyId,
-                          status: ContractStatus.Terminated,
-                        })
-                      }}
-                    >
-                      <Trash2 />
-                      Terminate
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -120,10 +86,10 @@ const ContractsTable = ({ contracts, session }: Props) => {
             },
           },
         ]}
-        data={contracts ?? []}
+        data={payments ?? []}
       />
     </div>
   )
 }
 
-export default ContractsTable
+export default PaymentsTable
